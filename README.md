@@ -1,4 +1,4 @@
-# sJSON syntax highlighting for Sublime Text
+## sJSON syntax highlighting for Sublime Text
 
 Provides syntax highlighting for '.sjson' files. Changes in JSON format (see JSON specs http://json.org/) are described here http://bitsquid.blogspot.nl/2009/10/simplified-json-notation.html
 
@@ -9,13 +9,13 @@ Provides syntax highlighting for '.sjson' files. Changes in JSON format (see JSO
 
 ## Installation:
 * first option
-** copy current folder content to "Sublime Text 2/Packages/User/" folder
-** restart sublime text editor is not needed
+	* copy current folder content to "Sublime Text 2/Packages/User/" folder
+	* restart sublime text editor is not needed
 * second option:
-** zip current folder content
-** rename archive to sJSON.sublime-package
-** copy archive to "Sublime Text 2/Installed Packages/" folder
-** restart sublime editor
+	* zip current folder content
+	* rename archive to sJSON.sublime-package
+	* copy archive to "Sublime Text 2/Installed Packages/" folder
+	* restart sublime editor
 
 ## Notes:
 * see http://docs.sublimetext.info/en/latest/extensibility/syntaxdefs.html for instructions, specs
