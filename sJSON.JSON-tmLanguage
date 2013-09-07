@@ -1,0 +1,162 @@
+{
+	"name": "sJSON",
+	"scopeName": "source.sjson",
+	"fileTypes": ["sjson"],
+	"uuid": "3cf66019-099a-4d2a-9f01-8f91aaabc355",
+	"patterns": [
+		{ "include": "#root-object" }
+	],
+	"repository": {
+		"constant": {
+			"comment": "true/false/null keywords",
+			"match": "\\b(?:true|false|null)\\b", 
+			"name": "constant.language.sjson"
+		},
+		"number": {
+			"comment": "handles integer and decimal numbers", 
+			"match": "-?(?:0|[1-9]\\d*)(?:(?:\\.\\d+)?(?:[eE][+-]?\\d+)?)?", 
+			"name": "constant.numeric.sjson"
+		},
+		"comments": {
+			"comment": "singleline and multiline comment blocks",
+			"patterns": [
+				{
+					"begin": "/\\*\\*", 
+					"captures": { "0": { "name": "punctuation.definition.comment.sjson" } }, 
+					"end": "\\*/", 
+					"name": "comment.block.documentation.sjson"
+				}, 
+				{
+					"begin": "/\\*", 
+					"captures": { "0": { "name": "punctuation.definition.comment.sjson" } }, 
+					"end": "\\*/", 
+					"name": "comment.block.sjson"
+				}, 
+				{
+					"captures": { "1": { "name": "punctuation.definition.comment.sjson" } }, 
+					"match": "(//).*$\\n?", 
+					"name": "comment.line.double-slash.sjson"
+				}
+			]
+		},
+		"string": {
+			"comment": "string enclosed by double quotes",
+			"name": "string.quoted.double.sjson", 
+			"begin": "\"", 
+			"beginCaptures": { "0": { "name": "punctuation.definition.string.begin.sjson" } }, 
+			"end": "\"", 
+			"endCaptures": { "0": { "name": "punctuation.definition.string.end.sjson" } }, 
+			"patterns": [
+				{
+					"match": "\\\\(?:[\"\\\\/bfnrt]|u[0-9a-fA-F]{4})", 
+					"name": "constant.character.escape.sjson"
+				}, 
+				{
+					"match": "\\\\.", 
+					"name": "invalid.illegal.unrecognized-string-escape.sjson"
+				}
+			]
+		},
+		"value": {
+			"patterns": [
+				{ "include": "#constant" },
+				{ "include": "#number" },
+				{ "include": "#string" },
+				{ "include": "#object"},
+				{ "include": "#array"},
+				{ "include": "#comments" }
+			]
+		},
+		"indentifier": {
+			"comment": "quotes around object keys are optional if the keys are valid identifiers",
+			"name": "variable.parameter.meta.structure.key.sjson",
+			"match": "[a-zA-Z_][a-zA-Z0-9_]*"
+		},
+		"string-indentifier": {
+			"comment": "the same as usual string, but with different name",
+			"name": "string.quoted.double.meta.structure.key.sjson", 
+			"begin": "\"", 
+			"beginCaptures": { "0": { "name": "punctuation.definition.string.begin.sjson" } }, 
+			"end": "\"", 
+			"endCaptures": { "0": { "name": "punctuation.definition.string.end.sjson" } }, 
+			"patterns": [
+				{
+					"match": "\\\\(?:[\"\\\\/bfnrt]|u[0-9a-fA-F]{4})", 
+					"name": "constant.character.escape.sjson"
+				}, 
+				{
+					"match": "\\\\.", 
+					"name": "invalid.illegal.unrecognized-string-escape.sjson"
+				}
+			]
+		},
+		"object-key": {
+			"name": "object-key",
+			"comment": "quated string or valid identifier as name",
+			"patterns": [
+				{ "include": "#indentifier" },
+				{ "include": "#string-indentifier" }
+			]
+		},
+		"key-value": {
+			"comment": "key-value pair",
+			"name": "meta.structure.object.key-value-pair.sjson",
+			"patterns": [
+				{ "include": "#object-key" },
+				{ "include": "#comments" },
+				{
+					"name": "meta.structure.object.value.sjson", 
+					"begin": "(=)\\s*",
+					"beginCaptures": { "1": { "name": "punctuation.separator.object.key-value.sjson" } },
+					"end": "(,)|(?<=[\\S&&[^=]])|(?=\\})",
+					"endCaptures": { "1": { "name": "punctuation.separator.object.pair.sjson" } }, 
+					"patterns": [
+						{ "include": "#value" },
+						{ "match": "[\\S&&[^\\}]]", "name" : "invalid.illegal.sjson" }
+					]
+				},
+				{ "match": "[\\S&&[^\\}]]", "name" : "invalid.illegal.sjson" }
+			]
+		},
+		"object": {
+			"comment": "list of key-value pairs",
+			"name": "meta.structure.object.sjson",
+			"begin" : "\\{",
+			"beginCaptures" : { "0": { "name": "punctuation.definition.object.begin" } },
+			"end" : "\\}",
+			"endCaptures" : { "0": { "name": "punctuation.definition.object.end" } },
+			"patterns": [
+				{ "include": "#key-value" }
+			]
+		},
+		"array": {
+			"comment": "array of values",
+			"name": "meta.structure.array.sjson",
+			"begin": "\\[", 
+			"beginCaptures": { "0": { "name": "punctuation.definition.array.begin.sjson" } },
+			"end": "\\]", 
+			"endCaptures": { "0": { "name": "punctuation.definition.array.end.sjson" } }, 
+			"patterns": [
+				{ "include": "#value" }, 
+				{
+					"match": ",",
+					"name": "punctuation.separator.array.sjson"
+				}, 
+				{
+					"match": "[^\\s\\]]", 
+					"name": "invalid.illegal.expected-array-separator.sjson"
+				}
+			]
+		},
+		"root-object": {
+			"name": "root-object",
+			"patterns": [
+				{ "include": "#key-value" },
+				{ "include": "#comments" },
+				{ "name": "spaces", "match": "\\s+" }
+			]
+		}
+	},
+	"foldingStartMarker": "\\{",
+	"foldingStopMarker": "\\}"
+}
